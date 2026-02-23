@@ -1,0 +1,5 @@
+{
+  "name": "lang-r",
+  "version": "1.0.0",
+  "description": "R package development with devtools, testthat, and roxygen2"
+}

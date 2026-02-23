@@ -1,0 +1,5 @@
+{
+  "name": "dev-workflow",
+  "version": "1.0.0",
+  "description": "Development workflow skills for commits, linting, testing, code review, PRs, documentation, coverage, dependencies, project scaffolding, and task automation"
+}

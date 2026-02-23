@@ -1,0 +1,5 @@
+{
+  "name": "lang-julia",
+  "version": "1.0.0",
+  "description": "Julia package development following SciML standards"
+}

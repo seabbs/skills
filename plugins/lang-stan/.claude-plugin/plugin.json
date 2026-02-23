@@ -1,0 +1,5 @@
+{
+  "name": "lang-stan",
+  "version": "1.0.0",
+  "description": "Stan probabilistic programming with cmdstanr integration"
+}

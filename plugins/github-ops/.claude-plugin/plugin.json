@@ -1,0 +1,5 @@
+{
+  "name": "github-ops",
+  "version": "1.0.0",
+  "description": "GitHub operations including dashboard, issue management, repo analysis, and issue scanning"
+}

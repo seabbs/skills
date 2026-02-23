@@ -1,0 +1,5 @@
+{
+  "name": "org-management",
+  "version": "1.0.0",
+  "description": "GitHub organisation management including CI health, dependency audits, issue triage, maintenance, orchestration, releases, standards, and repo monitoring"
+}

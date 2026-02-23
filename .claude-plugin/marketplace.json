@@ -1,0 +1,66 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "skills",
+  "version": "1.0.0",
+  "description": "Claude Code skills for research, development, and GitHub automation",
+  "owner": {
+    "name": "Sam Abbott",
+    "email": "contact@samabbott.co.uk"
+  },
+  "plugins": [
+    {
+      "name": "research-academic",
+      "description": "Academic research skills including paper analysis, literature search, preprint discovery, grant management, and meeting minutes",
+      "source": "./plugins/research-academic",
+      "category": "research"
+    },
+    {
+      "name": "lang-r",
+      "description": "R package development with devtools, testthat, and roxygen2",
+      "source": "./plugins/lang-r",
+      "category": "development"
+    },
+    {
+      "name": "lang-julia",
+      "description": "Julia package development following SciML standards",
+      "source": "./plugins/lang-julia",
+      "category": "development"
+    },
+    {
+      "name": "lang-stan",
+      "description": "Stan probabilistic programming with cmdstanr integration",
+      "source": "./plugins/lang-stan",
+      "category": "development"
+    },
+    {
+      "name": "dev-workflow",
+      "description": "Development workflow skills for commits, linting, testing, code review, PRs, documentation, coverage, dependencies, project scaffolding, and task automation",
+      "source": "./plugins/dev-workflow",
+      "category": "development"
+    },
+    {
+      "name": "github-ops",
+      "description": "GitHub operations including dashboard, issue management, repo analysis, and issue scanning",
+      "source": "./plugins/github-ops",
+      "category": "productivity"
+    },
+    {
+      "name": "org-management",
+      "description": "GitHub organisation management including CI health, dependency audits, issue triage, maintenance, orchestration, releases, standards, and repo monitoring",
+      "source": "./plugins/org-management",
+      "category": "productivity"
+    },
+    {
+      "name": "bot-automation",
+      "description": "Bot account automation for adding collaborators, processing task requests, and generating daily summaries",
+      "source": "./plugins/bot-automation",
+      "category": "productivity"
+    },
+    {
+      "name": "productivity",
+      "description": "Productivity skills for code cleanup, Obsidian notes, tmux workflows, UK news, weekly planning, and project inventory",
+      "source": "./plugins/productivity",
+      "category": "productivity"
+    }
+  ]
+}

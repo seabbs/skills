@@ -1,0 +1,5 @@
+{
+  "name": "bot-automation",
+  "version": "1.0.0",
+  "description": "Bot account automation for adding collaborators, processing task requests, and generating daily summaries"
+}
