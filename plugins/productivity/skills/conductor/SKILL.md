@@ -35,6 +35,8 @@ The script outputs a JSON object with:
     `tmux_pane`: tmux location
   - `age`: human-readable age string (e.g. "3m", "2h")
   - `recent_prompts`: last 3 user prompts (truncated)
+  - `last_response`: last assistant text response (truncated
+    to 200 chars, may be empty if session has no history)
 
 ## Present dashboard
 
@@ -42,19 +44,20 @@ Start with a compact summary table. One row per session.
 Skip stale sessions unless the user asks for them.
 
 ```
-| # | State | Session         | Window       | Age | Last prompt (truncated) |
-|---|-------|-----------------|--------------|-----|-------------------------|
-| 1 | ●     | dotfiles        | main         | 2m  | /conductor demo         |
-| 2 | ◐     | epinowcast      | main         | 1h  | fix the failing test... |
+| # | ◉ | Session    | Window | Age | Last prompt       | Last response        |
+|---|---|------------|--------|-----|-------------------|----------------------|
+| 1 | ● | dotfiles   | main   | 2m  | /conductor demo   | Working on table...  |
+| 2 | ◐ | epinowcast | main   | 1h  | fix failing test  | Fixed, now running…  |
 ```
 
 Columns:
 - `#` — row number, used for drill-down
-- `State` — icon only (● running, ◐ waiting, ○ idle, ▲ permission)
+- `◉` — state icon only (● running, ◐ waiting, ○ idle, ▲ permission)
 - `Session` — tmux session name (or project)
 - `Window` — tmux window name
 - `Age` — compact age string from gather output
-- `Last prompt` — most recent prompt truncated to ~50 chars
+- `Last prompt` — most recent user prompt, ~30 chars
+- `Last response` — last assistant text, ~40 chars
 
 Keep the table under 10 rows. If more sessions exist,
 note the count and offer to show all.
@@ -76,6 +79,8 @@ Session: {name or project} [{state}]
     1. {most recent}
     2. {second most recent}
     3. {third most recent}
+  Last response:
+    {last_response}
 ```
 
 Then ask again what they want to do.
