@@ -1,23 +1,52 @@
-# Skill: Show Diff
-Expertise in opening a tmux split with `diffview.nvim` to review changes.
+---
+name: show-diff
+description: Open a tmux split running diffview.nvim so the user can review the agent's recent changes. Use proactively after non-trivial edits, or when the user asks to "show the diff", "open a diff viewer", or similar.
+argument-hint: [rev-range]
+---
 
-## Overview
-Open a new tmux pane that displays recent changes using `diffview.nvim`. This is useful for self-review or for showing the user what has changed.
+# Show Diff
 
-## Usage
-Run the following command:
-`bash ~/code/seabbs/dotfiles/scripts/show-diff.sh $ARGUMENTS`
+Open a new tmux pane that displays current changes via `diffview.nvim`,
+so the user can review in a side-by-side viewer instead of scrolling
+terminal output.
 
-### Arguments
-- No argument → working tree vs HEAD (uncommitted changes only).
-- `main...HEAD` → branch diff vs main (for committed changes on a feature branch).
-- Any valid rev range (e.g., `HEAD~3..HEAD`) → passed through verbatim.
+## When to use
+
+- After making more than a handful of edits, surface them for review
+- User asks to see the diff, open a diff viewer, or review the changes
+- Before asking the user to approve committing a larger change
+
+Skip when edits are tiny, when not inside tmux, or when the user has
+already reviewed the changes in this turn.
+
+## How to run
+
+```bash
+bash ~/code/seabbs/dotfiles/scripts/show-diff.sh $ARGUMENTS
+```
+
+The script opens a right-hand split running `nvim +DiffviewOpen <range>`
+rooted at the repo top-level.
+
+## Choosing the rev-range
+
+| Changes are… | Argument |
+|---|---|
+| uncommitted only | no argument |
+| committed on a feature branch | `main...HEAD` (or the actual base branch) |
+| in the last N commits | `HEAD~N..HEAD` |
+
+If the agent has both committed and uncommitted work on a feature
+branch, `main...HEAD` covers the full picture.
 
 ## Requirements
-- Must be in an active tmux session.
-- Must be in a Git repository.
 
-## Execution Rules
-- Pick the argument based on where the changes live (uncommitted vs branch).
-- After opening, notify the user that the pane is available for review.
-- Do not attempt to interact with the nvim pane from the agent side.
+- Running inside tmux (script errors out otherwise)
+- Inside a git repository
+- `diffview.nvim` available in neovim (already configured in the
+  user's dotfiles)
+
+## After opening
+
+Tell the user the pane is up and what range it shows. Do not try to
+drive the nvim instance from the agent side.
