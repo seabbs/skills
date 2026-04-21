@@ -30,14 +30,18 @@ rooted at the repo top-level.
 
 ## Choosing the rev-range
 
-| Changes are… | Argument |
-|---|---|
-| uncommitted only | no argument |
-| committed on a feature branch | `main...HEAD` (or the actual base branch) |
-| in the last N commits | `HEAD~N..HEAD` |
+Shortcuts the script understands:
+
+| Argument | Expands to | Use when… |
+|---|---|---|
+| *(none)* | working tree vs HEAD | changes are uncommitted |
+| `last` | `HEAD~1..HEAD` | reviewing just the last commit |
+| `last N` or `N` | `HEAD~N..HEAD` | reviewing the last N commits |
+| `pr` | `origin/<base>...HEAD` (base from `gh pr view`) | on a branch with an open PR |
+| any other value | passed through verbatim | explicit rev range, e.g. `main...HEAD` |
 
 If the agent has both committed and uncommitted work on a feature
-branch, `main...HEAD` covers the full picture.
+branch with an open PR, `pr` is the fastest choice.
 
 ## Requirements
 
