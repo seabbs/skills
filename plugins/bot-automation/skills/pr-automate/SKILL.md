@@ -1,33 +1,57 @@
-# Skill: PR Automate
-Expertise in background PR maintenance, feedback relay, and continuous review.
+---
+name: pr-automate
+description: Run as a background subagent after a PR is created or pushed. Acts as a continuous quality gate, posting review findings, watching CI and mergeability, and relaying human feedback back to the main thread. Invoke via the Agent tool with run_in_background true.
+---
+
+# PR Automate
+
+Background PR maintenance, feedback relay, and continuous review. Runs
+alongside the main agent as a quality gate.
+
+## When to use
+
+Spawn this skill as a background subagent after either:
+
+- A new PR is created (`gh pr create` completes), or
+- A push lands on a branch with an open PR (`git push` completes)
+
+The main agent invokes it via the `Agent` tool with `run_in_background:
+true` so it can work in parallel without blocking.
 
 ## Procedures
 
-### 1. Initial Review
-- Run `review` skill from `dev-workflow`.
-- **IMMEDIATE ACTION:** Report the full summary of Critical and Important findings as a message to the main thread.
-- **GITHUB ACTION:** Post each finding as an inline PR comment via `gh api`. Skip suggestions.
-- **NOTIFY:** Confirm to the main thread once both reporting and posting are complete.
+### 1. Initial review
+- Run the `review` skill from `dev-workflow`.
+- Report the full summary of Critical and Important findings back to the
+  main thread.
+- Post each finding as an inline PR comment via `gh api`. Skip
+  suggestions.
+- Confirm to the main thread once both reporting and posting are done.
 
-### 2. CI/Conflict Loop (30m) - "The Janitor"
-- Every 3m, check `gh pr checks` and mergeability.
-- **ACTION:** Resolve technical hurdles (CI failures or conflicts) immediately using `lint` and `test` skills.
-- **NOTIFY:** Report success or unfixable failures to the main thread.
+### 2. CI / conflict loop — "the janitor" (30 min)
+- Every 3 min, check `gh pr checks` and mergeability.
+- Resolve technical hurdles (CI failures, conflicts) using the `lint`
+  and `test` skills.
+- Report success or unfixable failures back to the main thread.
 
-### 3. Continuous Integration Review - "The Watcher"
-- Watch the local repository and PR for new commits pushed by the **main agent**.
-- **ACTION:** When the main agent pushes changes (e.g., in response to feedback), immediately run a targeted `review` on the new changes.
-- **NOTIFY:** Report any regressions or new "Critical/Important" issues discovered in the main agent's work back to the main thread immediately.
+### 3. Continuous integration review — "the watcher"
+- Watch the PR for new commits pushed by the main agent.
+- When new commits land, run a targeted `review` on the new changes.
+- Report regressions or new Critical/Important issues back immediately.
 
-### 4. Feedback Relay (4h) - "The Messenger"
+### 4. Feedback relay — "the messenger" (up to 4 h)
 - Poll for new reviews or comments from `seabbs` or `seabbs-bot`.
-- **IMMEDIATE ACTION:** Report the **full content** and location of the feedback to the main thread.
-- **STRATEGY:** Do **NOT** fix human feedback; let the main agent implement intent while you continue to monitor the resulting commits.
-- **Timing:** 10m intervals for 30m, then 30m intervals.
+- Report the full content and location of the feedback to the main
+  thread.
+- Do not fix human feedback; let the main agent implement intent while
+  this skill keeps monitoring resulting commits.
+- Timing: 10 min intervals for 30 min, then 30 min intervals.
 
 ## Rules
-- Use `run_in_background: true`.
-- **Collaborative Loop:** You act as a continuous quality gate for the main agent. 
-- **High-Signal Reporting:** Ensure reports are concise but complete.
-- No permission prompts; use separate Bash calls.
-- Treat `seabbs`/`seabbs-bot` as high-priority directives.
+
+- Run with `run_in_background: true`.
+- Act as a continuous quality gate for the main agent, not a
+  replacement.
+- Keep reports concise but complete.
+- Use separate Bash calls; do not trigger permission prompts.
+- Treat `seabbs` and `seabbs-bot` feedback as high priority.
