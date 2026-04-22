@@ -20,6 +20,16 @@ true` so it can work in parallel without blocking.
 
 ## Procedures
 
+### 0. Tag the PR as agent-authored
+- Run this step only when spawned after a PR was just created (the
+  post-create path). Skip on the post-push path if the PR already
+  carries the notice.
+- Prepend the following line to the PR body:
+  **This is entirely from an agent so do not review until I have
+  pinged for review as I will do a first pass**
+- Update the PR via `gh pr edit --body` (or the GraphQL equivalent).
+- Confirm the notice is in place before moving on.
+
 ### 1. Initial review
 - Run the `review` skill from `dev-workflow`.
 - Report the full summary of Critical and Important findings back to the
