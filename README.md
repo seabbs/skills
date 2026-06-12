@@ -15,8 +15,9 @@ Claude Code skills marketplace for research, development, and GitHub automation.
 | `org-management` | 10 | CI health, deps, issues, maintenance, orchestration, releases, standards, monitoring |
 | `bot-automation` | 3 | Bot collaborator, task processing, daily summaries |
 | `productivity` | 7 | Code cleanup, Obsidian notes, tmux, UK news, weekly planning, project inventory |
+| `hermes-tweet` | 1 | Hermes Agent X/Twitter setup, read workflows, and guarded actions |
 
-**Total: 47 skills across 9 plugins**
+**Total: 48 skills across 10 plugins**
 
 ## Installation
 
@@ -36,6 +37,7 @@ claude plugin install github-ops@skills
 claude plugin install org-management@skills
 claude plugin install bot-automation@skills
 claude plugin install productivity@skills
+claude plugin install hermes-tweet@skills
 ```
 
 Or install individual plugins as needed.
@@ -134,6 +136,12 @@ Or install individual plugins as needed.
 | `/weekly-plan` | Review past week and suggest priorities |
 | `/working-on` | Create or update project inventory |
 
+### hermes-tweet
+
+| Skill | Description |
+|---|---|
+| `/hermes-tweet` | Install and operate Hermes Tweet for Hermes Agent X/Twitter workflows |
+
 ## Environment variables
 
 Some skills use environment variables for personalisation:
@@ -142,6 +150,8 @@ Some skills use environment variables for personalisation:
 |---|---|---|
 | `OBSIDIAN_VAULT` | `create-note`, `format-note` | Path to Obsidian vault |
 | `GITHUB_HANDLE` | `org-orchestrate` | GitHub username for org automation |
+| `XQUIK_API_KEY` | `hermes-tweet` | Xquik API key for Hermes Tweet read workflows |
+| `HERMES_TWEET_ENABLE_ACTIONS` | `hermes-tweet` | Explicit action gate for write-side workflows |
 
 ## Licence
 

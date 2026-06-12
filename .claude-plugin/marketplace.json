@@ -1,11 +1,13 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "skills",
-  "version": "1.0.0",
-  "description": "Claude Code skills for research, development, and GitHub automation",
   "owner": {
     "name": "Sam Abbott",
     "email": "contact@samabbott.co.uk"
+  },
+  "metadata": {
+    "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+    "version": "1.0.0",
+    "description": "Claude Code skills for research, development, GitHub automation, and Hermes Agent X/Twitter workflows"
   },
   "plugins": [
     {
@@ -61,6 +63,12 @@
       "description": "Productivity skills for code cleanup, Obsidian notes, tmux workflows, UK news, weekly planning, and project inventory",
       "source": "./plugins/productivity",
       "category": "productivity"
+    },
+    {
+      "name": "hermes-tweet",
+      "description": "Hermes Agent X/Twitter setup, read workflows, and guarded action operation",
+      "source": "./plugins/hermes-tweet",
+      "category": "development"
     }
   ]
 }
