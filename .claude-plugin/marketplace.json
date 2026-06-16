@@ -61,6 +61,12 @@
       "description": "Productivity skills for code cleanup, Obsidian notes, tmux workflows, UK news, weekly planning, and project inventory",
       "source": "./plugins/productivity",
       "category": "productivity"
+    },
+    {
+      "name": "xquik",
+      "description": "X/Twitter data workflow guidance for REST API, MCP, webhooks, and bulk extraction",
+      "source": "./plugins/xquik",
+      "category": "productivity"
     }
   ]
 }

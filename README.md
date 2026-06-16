@@ -15,8 +15,9 @@ Claude Code skills marketplace for research, development, and GitHub automation.
 | `org-management` | 10 | CI health, deps, issues, maintenance, orchestration, releases, standards, monitoring |
 | `bot-automation` | 3 | Bot collaborator, task processing, daily summaries |
 | `productivity` | 7 | Code cleanup, Obsidian notes, tmux, UK news, weekly planning, project inventory |
+| `xquik` | 1 | X/Twitter data workflows, REST API, MCP, webhooks, bulk extraction |
 
-**Total: 47 skills across 9 plugins**
+**Total: 48 skills across 10 plugins**
 
 ## Installation
 
@@ -36,6 +37,7 @@ claude plugin install github-ops@skills
 claude plugin install org-management@skills
 claude plugin install bot-automation@skills
 claude plugin install productivity@skills
+claude plugin install xquik@skills
 ```
 
 Or install individual plugins as needed.
@@ -133,6 +135,12 @@ Or install individual plugins as needed.
 | `/uk-news` | UK news summary from BBC and Guardian |
 | `/weekly-plan` | Review past week and suggest priorities |
 | `/working-on` | Create or update project inventory |
+
+### xquik
+
+| Skill | Description |
+|---|---|
+| `/xquik-twitter-data` | Choose safe Xquik workflows for X/Twitter search, profiles, followers, media, monitors, webhooks, REST API, and MCP setup |
 
 ## Environment variables
 
