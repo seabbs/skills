@@ -1,0 +1,5 @@
+{
+  "name": "xquik",
+  "version": "1.0.0",
+  "description": "X/Twitter data workflow guidance for REST API, MCP, webhooks, and bulk extraction"
+}
