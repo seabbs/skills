@@ -10,13 +10,15 @@ Claude Code skills marketplace for research, development, and GitHub automation.
 | `lang-r` | 1 | R package development (devtools, testthat, roxygen2) |
 | `lang-julia` | 1 | Julia package development (SciML standards) |
 | `lang-stan` | 1 | Stan probabilistic programming (cmdstanr) |
-| `dev-workflow` | 10 | Commits, linting, testing, review, PRs, docs, coverage, deps, scaffolding, tasks |
+| `dev-workflow` | 12 | Commits, linting, testing, review, PRs, docs, coverage, deps, scaffolding, tasks |
 | `github-ops` | 6 | Dashboard, issue management, repo analysis, issue scanning |
 | `org-management` | 10 | CI health, deps, issues, maintenance, orchestration, releases, standards, monitoring |
-| `bot-automation` | 3 | Bot collaborator, task processing, daily summaries |
-| `productivity` | 7 | Code cleanup, Obsidian notes, tmux, UK news, weekly planning, project inventory |
+| `bot-automation` | 4 | Bot collaborator, task processing, PR automation, daily summaries |
+| `productivity` | 8 | Code cleanup, Obsidian notes, tmux, UK news, weekly planning, project inventory |
+| `pi` | 1 | Delegate self-contained tasks to a local coding agent |
+| `xquik` | 1 | X/Twitter data workflows, REST API, MCP, webhooks, bulk extraction |
 
-**Total: 47 skills across 9 plugins**
+**Total: 53 skills across 11 plugins**
 
 ## Installation
 
@@ -36,6 +38,8 @@ claude plugin install github-ops@skills
 claude plugin install org-management@skills
 claude plugin install bot-automation@skills
 claude plugin install productivity@skills
+claude plugin install pi@skills
+claude plugin install xquik@skills
 ```
 
 Or install individual plugins as needed.
@@ -87,6 +91,8 @@ Or install individual plugins as needed.
 | `/update-deps` | Review and update dependencies with incremental testing |
 | `/project-organization` | Project scaffolding and structure patterns |
 | `/taskfile-automation` | Task (taskfile.dev) automation for project workflows |
+| `/pre-pr-checks` | Run pre-PR verification in an isolated subagent |
+| `/show-diff` | Open a tmux split for side-by-side diff review |
 
 ### github-ops
 
@@ -121,6 +127,7 @@ Or install individual plugins as needed.
 | `/add-bot` | Add bot account as repo collaborator |
 | `/bot-tasks` | Process bot task requests from GitHub notifications |
 | `/daily-summary` | Summarise bot activity across repos |
+| `/pr-automate` | Monitor pull request reviews, CI, and mergeability |
 
 ### productivity
 
@@ -133,6 +140,19 @@ Or install individual plugins as needed.
 | `/uk-news` | UK news summary from BBC and Guardian |
 | `/weekly-plan` | Review past week and suggest priorities |
 | `/working-on` | Create or update project inventory |
+| `/conductor` | View and message active Claude Code sessions |
+
+### pi
+
+| Skill | Description |
+|---|---|
+| `/pi` | Delegate a self-contained task to a local coding agent |
+
+### xquik
+
+| Skill | Description |
+|---|---|
+| `/xquik-twitter-data` | Choose safe Xquik workflows for X/Twitter search, profiles, followers, media, monitors, webhooks, REST API, and MCP setup |
 
 ## Environment variables
 

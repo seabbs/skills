@@ -67,6 +67,12 @@
       "description": "Delegate self-contained tasks to the local pi coding agent. Runs cheap flash-tier model. Use for quick code generation, simple refactoring, codebase questions, and small file operations.",
       "source": "./plugins/pi",
       "category": "development"
+    },
+    {
+      "name": "xquik",
+      "description": "X/Twitter data workflow guidance for REST API, MCP, webhooks, and bulk extraction",
+      "source": "./plugins/xquik",
+      "category": "productivity"
     }
   ]
 }
