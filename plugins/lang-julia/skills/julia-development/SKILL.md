@@ -72,8 +72,8 @@ Fall back to a fresh process for:
 ## Dependencies
 
 Use `Pkg.update()` rather than editing `Project.toml` by hand.
-Adding a package needs a worker restart, since a running process
-cannot load new code into its environment.
+You can `Pkg.add` then `using` in a live session, but restart the
+worker afterwards if the new package changes what is already loaded.
 
 ## Formatting and quality
 
@@ -108,7 +108,7 @@ end
 ```
 
 Keep interface docstrings to a line or two and cross-reference
-related methods with `See also: [`other`](@ref)` rather than
+related methods with a ``See also: [`other`](@ref)`` line rather than
 repeating content.
 
 ## When to use this skill
