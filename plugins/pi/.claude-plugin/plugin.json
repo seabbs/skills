@@ -1,0 +1,5 @@
+{
+  "name": "pi",
+  "version": "1.0.0",
+  "description": "Delegate self-contained tasks to pi, a local AI coding agent, and report back the result"
+}
