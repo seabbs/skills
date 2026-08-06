@@ -1,204 +1,98 @@
 ---
 name: julia-development
-description: Expert guidance for Julia package development following SciML standards, Distributions.jl patterns, and Julia ecosystem best practices
+description: Julia package development on a warm REPL session, verifying each edit with Revise and TestItemRunner rather than at the end
 ---
 
-# Julia Package Development
+# Julia package development
 
-Use this skill when working with Julia packages to ensure proper development workflows, testing patterns, documentation standards, and performance best practices.
+Work on a warm Julia session and verify each edit as you make it.
+The cost of a fresh process is time-to-first-execution paid once per
+session, so keep one alive and check every change against it.
+An agent that verifies per step writes better Julia: genuinely
+non-allocating where asked, and more likely to get the task right
+first time.
 
-## Development Workflow
+## Warm session
 
-### Environment Management
+Start one session and reuse it.
+Under Claude Code the AgentREPL.jl plugin gives a warm MCP session
+over STDIO, with no open port.
+Its `eval` tool is synchronous, so a call returns when evaluation
+finishes.
+A PostToolUse hook nudges you to reload after editing a `.jl` file.
 
-```bash
-# Start Julia with project environment
-julia --project=.
+Point the session at the project with `activate`, then `instantiate`.
+Redefining state or types Revise cannot reload means restarting the
+worker with `reset`.
 
-# Activate project in REPL
-using Pkg
-Pkg.activate(".")
+## Revise
 
-# Install dependencies
-Pkg.instantiate()
+Call the `revise` tool after editing a `.jl` file; session state is
+kept.
+Struct and type edits now reload on Julia 1.12+ with Revise 3.16+ and
+`revise_structs = true`, but objects built before the edit keep the
+old type, so a session holding such state is still stale.
 
-# Update dependencies (PREFERRED over direct Project.toml editing)
-Pkg.update()
+Still needs a fresh worker:
 
-# Add new dependency
-Pkg.add("PackageName")
+- macro and generated-function changes
+- a struct reached only through a type alias or global binding
+- corrupted or polluted state; restart rather than debug it
 
-# Add development dependency
-Pkg.add("PackageName"; io=devnull)  # Then manually move to extras/test deps
+## Testing with TestItemRunner
 
-# Check package status
-Pkg.status()
-```
+Write tests as `@testitem "name" begin ... end`.
+Each item runs in a fresh module, so runs stay isolated even in a
+shared session.
 
-**IMPORTANT**: Always use `Pkg.update()` to update packages.
-Never edit `Project.toml` directly for version updates.
-
-### Testing
-
-```bash
-# Run all tests (from project root)
-julia --project=. -e 'using Pkg; Pkg.test()'
-
-# Run tests with test environment
-julia --project=test test/runtests.jl
-
-# Run tests skipping quality checks (if supported)
-julia --project=test test/runtests.jl skip_quality
-```
-
-**Test Organization:**
-- Use `TestItemRunner` with `@testitem` syntax for modular testing
-- Organize tests by component: `test/component/`, `test/package/`
-- Package-level tests in `test/package/` for quality (Aqua, DocTest, formatting)
-- Use `@testitem "description" begin ... end` for individual test items
-
-**Example test structure:**
+Run `using TestItemRunner` once, then filter to what you changed:
 
 ```julia
-using TestItemRunner
-
-@testitem "Basic functionality" begin
-    using MyPackage
-    @test my_function(1) == 2
-end
-
-@testitem "Edge cases" begin
-    using MyPackage
-    @test_throws ArgumentError my_function(-1)
-end
+# by file
+@run_package_tests filter=ti->contains(ti.filename, "foo.jl")
+# by name
+@run_package_tests filter=ti->contains(ti.name, "edge")
+# by tag
+@run_package_tests filter=ti->!(:slow in ti.tags)
 ```
 
-### Documentation
+Run the narrowest filter that covers the change while iterating.
+Run the full suite on a fresh session before finishing.
 
-```bash
-# Build documentation locally
-julia --project=docs docs/make.jl
+## Hot versus cold
 
-# Build docs skipping notebooks (faster)
-julia --project=docs docs/make.jl --skip-notebooks
-# or via environment variable
-SKIP_NOTEBOOKS=true julia --project=docs docs/make.jl
+Run most work on the warm session.
+Fall back to a fresh process for:
 
-# Start Pluto server for interactive notebooks
-# (check project-specific task or command)
-```
+- final verification before commit
+- precompilation, load-time, or TTFX work
+- struct, type, or const redefinitions Revise cannot reload
+- stale state
 
-**Documentation Structure:**
-- Use Documenter.jl for documentation
-- Auto-deployment to GitHub Pages via CI
-- Structure defined in `docs/pages.jl` or `docs/make.jl`
+## Dependencies
 
-### Code Quality
+Use `Pkg.update()` rather than editing `Project.toml` by hand.
+You can `Pkg.add` then `using` in a live session, but restart the
+worker afterwards if the new package changes what is already loaded.
 
-```bash
-# Run pre-commit hooks
-pre-commit run --all-files
+## Formatting and quality
 
-# JuliaFormatter (typically configured in .JuliaFormatter.toml)
-# Usually handled by pre-commit hooks
-```
+Format with JuliaFormatter, usually through a pre-commit hook.
+Keep Aqua.jl tests in `test/` for package-quality checks.
+Follow the project style: 80-character lines, no trailing
+whitespace, type-stable code.
+Check type stability with `@code_warntype` and watch for `Any`.
 
-**Quality Checks:**
-- Aqua.jl tests for package quality
-- JuliaFormatter.jl for code formatting
-- Pre-commit hooks for automated checks
+## Docstrings
 
-## Code Style Guidelines
+Use DocStringExtensions templates, and mind template expansion:
 
-### SciML Coding Standards
-
-Follow SciML (Scientific Machine Learning) coding standards:
-- Avoid type instability
-- Ensure efficient precompilation
-- Use appropriate type annotations for performance
-- Write type-stable code
-
-**Type Stability:**
+- `@doc "..."` (regular string) lets templates expand
+- `@doc raw"..."` does not expand templates; use only without them
+- for templates with LaTeX, use `@doc """..."""` and escape
+  backslashes (`\\int`, not `\int`)
 
 ```julia
-# Good - type stable
-function compute(x::Float64)
-    result = 0.0  # Type is known
-    for i in 1:10
-        result += x * i
-    end
-    return result
-end
-
-# Avoid - type unstable
-function compute_bad(x)
-    result = 0  # Type might change
-    for i in 1:10
-        result = result + x * i  # Type may vary
-    end
-    return result
-end
-```
-
-### Formatting Rules
-
-- Max 80 characters per line
-- No trailing whitespace
-- No spurious blank lines
-- Use JuliaFormatter.jl for consistent formatting
-
-## Documentation Standards
-
-### Docstring Syntax
-
-Use `@doc` with either raw strings or regular strings:
-
-```julia
-# For simple docstrings without LaTeX or templates
-@doc "
-Brief description of the function.
-
-# Arguments
-- `x`: Description of x
-- `y`: Description of y
-
-# Returns
-- Description of return value
-
-# Examples
-```jldoctest
-julia> my_function(1, 2)
-3
-```
-"
-function my_function(x, y)
-    return x + y
-end
-
-# For docstrings with LaTeX math
-@doc raw"
-Computes the mathematical function:
-
-``f(x) = \int_0^x t^2 dt``
-
-Use raw strings when including LaTeX to preserve backslashes.
-"
-function math_function(x)
-    # implementation
-end
-```
-
-### DocStringExtensions Templates
-
-**IMPORTANT**: Template expansion rules:
-- Use `@doc "` (regular string) for templates (allows expansion)
-- Use `@doc """` with escaped backslashes when combining templates with LaTeX
-- **NEVER** use `@doc raw"` with templates (prevents expansion)
-
-```julia
-using DocStringExtensions
-
-# Good - template will expand
 @doc "
 $(TYPEDSIGNATURES)
 
@@ -211,152 +105,15 @@ struct MyType
     "Field description"
     field::Int
 end
-
-# Good - template + LaTeX with escaped backslashes
-@doc """
-\$(TYPEDSIGNATURES)
-
-Computes: ``f(x) = \\int_0^x t^2 dt``
-
-Note the escaped backslashes in LaTeX: \\int, not \int
-"""
-function combined_function(x)
-    # implementation
-end
-
-# Avoid - raw string prevents template expansion
-@doc raw"
-$(TYPEDSIGNATURES)  # This will NOT expand!
-"
 ```
 
-### Documentation Structure Best Practices
+Keep interface docstrings to a line or two and cross-reference
+related methods with a ``See also: [`other`](@ref)`` line rather than
+repeating content.
 
-- Keep interface method docstrings concise (1-2 lines)
-- Use "See also" sections for cross-references
-- Avoid duplication between related functions (pdf/logpdf, cdf/logcdf)
-- Include mathematical formulations in main type/constructor docstrings
-- Provide minimal but sufficient examples using `@example` blocks
+## When to use this skill
 
-**Cross-referencing:**
-
-```julia
-@doc "
-Compute the cumulative distribution function.
-
-See also: [`logcdf`](@ref)
-"
-function cdf(d::MyDist, x::Real)
-    # implementation
-end
-
-@doc "
-Compute the log cumulative distribution function.
-
-See also: [`cdf`](@ref)
-"
-function logcdf(d::MyDist, x::Real)
-    # implementation
-end
-```
-
-## Package Structure
-
-Typical Julia package structure:
-```
-MyPackage.jl/
-├── src/
-│   ├── MyPackage.jl        # Main module file with exports
-│   ├── component1.jl       # Component implementations
-│   ├── component2.jl
-│   ├── docstrings.jl       # DocStringExtensions templates
-│   └── utils/
-├── test/
-│   ├── runtests.jl         # Main test file
-│   ├── component1/         # Tests by component
-│   ├── component2/
-│   └── package/            # Quality tests (Aqua, formatting)
-├── docs/
-│   ├── make.jl             # Documentation build script
-│   ├── src/                # Documentation source
-│   └── pages.jl            # Page structure (optional)
-├── Project.toml            # Package dependencies
-└── README.md
-```
-
-## Performance Best Practices
-
-### Type Stability
-
-```julia
-# Check type stability with @code_warntype
-@code_warntype my_function(args...)
-
-# Look for red (Any) types - indicates type instability
-```
-
-### Precompilation
-
-```julia
-# Ensure efficient precompilation
-# Use PrecompileTools.jl for complex packages
-using PrecompileTools
-
-@compile_workload begin
-    # Representative workload for precompilation
-    my_function(example_args...)
-end
-```
-
-### Performance Patterns
-
-- Use in-place operations when possible (`!` suffix convention)
-- Preallocate arrays for loops
-- Use `@simd`, `@inbounds` when safe
-- Consider `StaticArrays.jl` for small fixed-size arrays
-- Profile with `@time`, `@benchmark` (BenchmarkTools.jl)
-
-## Common Dependencies and Patterns
-
-### Distributions.jl Interface
-
-When implementing distributions:
-- Implement required methods: `pdf`, `logpdf`, `cdf`, `logcdf`, `quantile`, `rand`
-- Implement support methods: `minimum`, `maximum`, `insupport`
-- Optionally implement: `mean`, `var`, `std` (if analytically tractable)
-- Vectorization handled automatically via broadcasting
-- Consider specialized batch methods: `pdf!`, `logpdf!`, `cdf!`
-
-### Turing.jl and AD Compatibility
-
-Ensure compatibility with automatic differentiation:
-- ForwardDiff.jl
-- ReverseDiff.jl
-- Zygote.jl
-- Enzyme.jl
-
-Avoid non-differentiable operations in AD-sensitive code.
-
-## Common Julia Ecosystem Tools
-
-- **Pkg**: Package management
-- **TestItemRunner**: Modern testing framework
-- **Documenter.jl**: Documentation generation
-- **DocStringExtensions**: Documentation templates
-- **JuliaFormatter.jl**: Code formatting
-- **Aqua.jl**: Package quality testing
-- **BenchmarkTools.jl**: Performance benchmarking
-- **PrecompileTools.jl**: Precompilation optimization
-
-## When to Use This Skill
-
-Activate this skill when:
-- Developing Julia packages
-- Writing Julia tests
-- Documenting Julia functions
-- Setting up Julia package infrastructure
-- Working with Distributions.jl, Turing.jl, or SciML packages
-- Optimising Julia code performance
-
-This skill provides Julia-specific development patterns.
-Project-specific architecture and domain knowledge should remain in project CLAUDE.md files.
+Use it when developing, testing, documenting, or profiling Julia
+packages.
+Project-specific architecture and domain knowledge belong in the
+project `CLAUDE.md`, not here.
