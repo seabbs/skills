@@ -61,6 +61,12 @@
       "description": "Productivity skills for code cleanup, Obsidian notes, tmux workflows, UK news, weekly planning, and project inventory",
       "source": "./plugins/productivity",
       "category": "productivity"
+    },
+    {
+      "name": "pi",
+      "description": "Delegate self-contained tasks to the local pi coding agent. Runs cheap flash-tier model. Use for quick code generation, simple refactoring, codebase questions, and small file operations.",
+      "source": "./plugins/pi",
+      "category": "development"
     }
   ]
 }
