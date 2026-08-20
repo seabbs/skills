@@ -119,7 +119,9 @@ When a batch of responses is done, post a single comment — not one per finding
 - What was not, and why.
 - Anything needing seabbs to decide.
 
-Then ping for review if the PR is ready, since the notice in step 0 told him to wait.
+Then ask the review bot for another pass by commenting `@seabbs-review-bot`.
+It will only take you up on that once the head has moved, so ask after pushing the fixes rather than before, and it caps how many times per PR you can ask.
+Ping seabbs for review separately once the PR is ready, since the notice in step 0 told him to wait.
 
 ### 6. Keep the PR description current
 
