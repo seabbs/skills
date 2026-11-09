@@ -10,9 +10,7 @@ For issues, use `issue-description`.
 ```markdown
 **This is entirely from an agent so do not review until I have pinged for review as I will do a first pass**
 
-Plots in the Julia REPL pane now render on Linux.
-
-Closes #12
+Plots in the Julia REPL pane now render on Linux. Closes #12.
 
 <optional screenshot>
 
@@ -36,7 +34,8 @@ This was opened by a bot. Please ping @seabbs for any questions.
 
 ## Rest
 
-- **Links.** Put the issue on its own line with a closing keyword (`Closes #12`), or `Part of #12` if the PR does not finish it. Other links go in the details.
+- **Links.** The issue number belongs in the opener, with a closing keyword (`Closes #12`), or `Part of #12` if the PR does not finish it. Other links go in the details.
+- **Decisions.** If seabbs has to decide anything, add a visible `Needs your decision:` line under the opener. Remove each item once it is settled.
 - **Screenshot.** Add one when the change is visible.
 - **Summary line.** Give the model. Add the effort only if you know it from the session or `~/.claude/settings.json`.
 - **Agent notice and bot footer.** Both stay outside `<details>`. Drop the notice once seabbs has rewritten the opener.

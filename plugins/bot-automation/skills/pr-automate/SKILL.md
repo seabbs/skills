@@ -1,6 +1,6 @@
 ---
 name: pr-automate
-description: Run as a background subagent after a PR is created or pushed. Acts as a continuous quality gate, watching CI and mergeability, and catching, answering and resolving review feedback from the review bot and from seabbs. Invoke via the Agent tool with run_in_background true.
+description: Run as a background subagent after a PR is created or pushed. Acts as a continuous quality gate, watching CI and mergeability, and catching and answering review feedback from the review bot and from seabbs. Invoke via the Agent tool with run_in_background true.
 ---
 
 # PR Automate
@@ -102,41 +102,28 @@ For each unanswered finding from an allow-listed author, one of two outcomes, an
 - **Not fixed**: reply saying why, in one or two sentences.
   Disagreeing is fine when the reasoning is given.
 
-Then resolve the thread.
-Resolving is GraphQL only, so `gh api` against REST will not do it.
-`$REPO` is `owner/repo` throughout, so split it first:
+Do not resolve threads or post a summary yourself.
+Once seabbs-bot has the last word in a thread, the review bot resolves it and hides its own comment on its next poll.
+It hides a whole review when nothing in it is open.
+seabbs should never have to read a handled review.
 
-```bash
-OWNER="${REPO%/*}"; NAME="${REPO#*/}"
+When a finding needs seabbs to decide, do not reply in its thread.
+Leave it open and list it in the PR description (step 7).
+Findings from seabbs are blocking. Never close one by disagreeing with it.
 
-gh api graphql -f query='query($o:String!,$r:String!,$n:Int!){
-  repository(owner:$o,name:$r){pullRequest(number:$n){
-    reviewThreads(first:100){nodes{id isResolved comments(first:1){nodes{databaseId}}}}}}}' \
-  -f o="$OWNER" -f r="$NAME" -F n="$PR"
+### 6. Ask for at most one re-review
 
-gh api graphql -f query='mutation($id:ID!){
-  resolveReviewThread(input:{threadId:$id}){thread{isResolved}}}' -f id="$THREAD_ID"
-```
-
-Leave a thread unresolved only when it is genuinely still open, and say so in the reply.
-Findings from seabbs are blocking: do not resolve one by disagreeing with it.
-
-### 6. Post one summary comment
-
-When a batch of responses is done, post a single comment — not one per finding, which is noise on top of noise.
-
-- What was addressed, one line each, with the commit.
-- What was not, and why.
-- Anything needing seabbs to decide.
-
-Then ask the review bot for another pass by commenting `@seabbs-review-bot`.
-It will only take you up on that once the head has moved, so ask after pushing the fixes rather than before, and it caps how many times per PR you can ask.
-Ping seabbs for review separately once the PR is ready, since the notice in step 0 told him to wait.
+Ask the review bot for another pass (`@seabbs-review-bot`) at most once per PR.
+Only ask after pushing fixes for Critical or Important findings.
+Never ask again after that, whatever the second pass says.
+The bot ignores a second ask from seabbs-bot anyway.
+Ping seabbs once the PR is ready, since the step 0 notice asks for a wait.
 
 ### 7. Keep the PR description current
 
 The description is the thing a human reads first, and it goes stale as soon as scope moves.
-Update it via `gh pr edit --body` whenever:
+After each round of review responses, rewrite it against `main` (`git diff origin/main...HEAD`), not against the last version of the description.
+Update it via `gh pr edit --body-file` whenever:
 
 - the change does something the description does not mention
 - something described was dropped
@@ -145,6 +132,7 @@ Update it via `gh pr edit --body` whenever:
 Keep the agent-authored notice at the top and the `pr-description` layout.
 Rewrite the opener if what the PR does has changed, and put the detail inside `<details>`.
 Describe what the PR does now, not the history of how it got there.
+List open decisions for seabbs on a visible `Needs your decision:` line under the opener, and remove each one once it is settled.
 
 ## Rules
 

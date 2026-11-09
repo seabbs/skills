@@ -20,9 +20,10 @@ A poll with nothing to do costs two API calls, because both searches filter serv
 It reviews automatically when a PR opens, if the author is seabbs or seabbs-bot and the owner is one of seabbs, epinowcast, epiforecasts, EpiAware, nfidd or mfiidd.
 On request it reviews any PR in those owners, including drafts, older PRs and other people's work.
 seabbs can ask any time by commenting `@seabbs-review-bot`.
-seabbs-bot can ask too, but only once the head commit has moved since the last review and at most five times per PR, so an agent has to push work to earn another pass.
+seabbs-bot can ask too, but only once the head commit has moved since the last review and only once per PR, so an agent has to push work to earn its one extra pass.
 
-Always skipped: PRs over 3000 changed lines, and anything labelled `no-review`.
+Always skipped: anything labelled `no-review`. No PR is skipped for size. Over 3000 reviewable lines it gets a focused pass over the files carrying the change.
+Each poll also resolves and hides bot threads that seabbs-bot has answered, and hides reviews with nothing left open (`review-bot.sh --tidy owner/repo#N` does one PR).
 Skipped on the automatic path only: drafts, PRs opened before the bot was switched on, and PRs by anyone else.
 
 The review runs Sonnet inside bwrap with a tmpfs `$HOME`, so it cannot read `~/.ssh`, `~/.config/gh`, `~/.config/review-bot` or `~/code`.
