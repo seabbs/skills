@@ -11,7 +11,7 @@ Claude Code skills marketplace for research, development, and GitHub automation.
 | `lang-julia` | 1 | Julia package development (SciML standards) |
 | `lang-stan` | 1 | Stan probabilistic programming (cmdstanr) |
 | `dev-workflow` | 11 | Commits, linting, testing, review, PRs, docs, coverage, deps, scaffolding, tasks |
-| `github-ops` | 6 | Dashboard, issue management, repo analysis, issue scanning |
+| `github-ops` | 7 | Dashboard, issue management, repo analysis, issue scanning |
 | `org-management` | 10 | CI health, deps, issues, maintenance, orchestration, releases, standards, monitoring |
 | `bot-automation` | 3 | Bot collaborator, task processing, daily summaries |
 | `productivity` | 7 | Code cleanup, Obsidian notes, tmux, UK news, weekly planning, project inventory |
@@ -96,6 +96,7 @@ Or install individual plugins as needed.
 | `/github-dashboard` | Notifications, PR status, issue triage |
 | `/issue-summary` | Summarise a GitHub issue conversation |
 | `/issue-reply` | Post a helpful reply to a GitHub issue |
+| `/issue-description` | Problem, suspected cause and fix up front, with the detail for each collapsed |
 | `/repo-summary` | Repository overview with activity metrics |
 | `/repo-activity` | Recent repository activity analysis |
 | `/scan-issues` | Find issues suitable for automated resolution |

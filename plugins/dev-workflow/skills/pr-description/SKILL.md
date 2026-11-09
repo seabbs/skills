@@ -6,6 +6,7 @@ description: Write or update a pull request description as a short opener with t
 Agent-written PR descriptions are accurate but long, and the length puts readers off.
 Keep all of the detail, but hide it behind `<details><summary>` so a reader sees only a short opener first.
 Based on https://simonwillison.net/2026/Nov/9/details-summary/.
+For issues, use the `issue-description` skill in `github-ops`.
 
 ## Layout
 
@@ -13,6 +14,8 @@ Based on https://simonwillison.net/2026/Nov/9/details-summary/.
 **This is entirely from an agent so do not review until I have pinged for review as I will do a first pass**
 
 <opener>
+
+Closes #12
 
 <optional screenshot>
 
@@ -30,9 +33,19 @@ This was opened by a bot. Please ping @seabbs for any questions.
 - **Agent notice.** Keep it at the top for agent-opened PRs (see `mark-pr-agent`).
   Drop it once seabbs has rewritten the opener.
 - **Opener.** One or two sentences, about 125 characters or fewer.
-  It is the shortest text that tells a reader what the PR is for and whether it needs their attention.
-  Say what changes for the user or the codebase, not how.
+  It is the one line you promise is worth the reader's time.
+  They should be able to stop there and know whether to read on.
+  Lead with what is different afterwards (behaviour, bug fixed, capability added), not how it was done.
+  If the PR needs something from the reader (a breaking change, a decision, a risky area to check), say so here.
+  Prefer lifting the best sentence from the detail over writing a fresh summary.
+  Do not repeat the title, list files or describe testing.
   No headings, lists or "This PR..." preamble.
+  If you cannot make one point, the PR probably does two things.
+- **Links.** Put the issue it resolves on its own visible line under the opener.
+  Use a closing keyword (`Closes #12`, `Fixes owner/repo#12`) so GitHub links it and closes it on merge.
+  Use `Part of #12` when the PR does not finish the issue.
+  Name a PR it depends on or replaces on the same line (`Depends on #40`).
+  Other related issues and PRs go inside `<details>`.
 - **Screenshot.** Add one when the change is visible (UI, plots, rendered docs, CLI output).
 - **`<details>` block.** Holds everything an agent would normally write.
   Nothing is removed, only collapsed.
