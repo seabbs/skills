@@ -10,7 +10,8 @@ For issues, use `issue-description`.
 ```markdown
 **This is entirely from an agent so do not review until I have pinged for review as I will do a first pass**
 
-Plots in the Julia REPL pane now render on Linux. Closes #12.
+This PR closes #12, where plots in the Julia REPL pane showed as blank boxes on Linux.
+MuxDisplay had nothing to hand the image to, so here we bundle a small imgcat shim and point it there.
 
 <optional screenshot>
 
@@ -47,15 +48,15 @@ This was opened by a bot. Please ping @seabbs for any questions.
 
 ## Opener
 
-- One or two sentences, about 125 characters or fewer. It is the line you promise is worth the reader's time.
-- Lead with what is different afterwards, not how it was done.
+- Write a short paragraph of two to four sentences in plain language, about 60 words at most. It is the text you promise is worth the reader's time.
+- Say what was wrong or missing, linking the issue (`This PR closes #12, where...`). Then say what this PR does about it.
 - If the PR needs something from the reader (a breaking change, a decision, a risky area), say so here.
-- Prefer lifting the best sentence from the detail. Do not repeat the title, list files or describe testing.
-- If you cannot make one point, the PR probably does two things.
+- Do not list files or describe testing. Those belong in the details.
+- If it will not fit, the PR probably does two things.
 
 ## Rest
 
-- **Links.** The issue number belongs in the opener, with a closing keyword (`Closes #12`), or `Part of #12` if the PR does not finish it. Other links go in the details.
+- **Links.** Use a closing keyword for the issue in the opener (`closes #12`), or `is part of #12` if the PR does not finish it. Other links go in the details.
 - **Decisions.** If seabbs has to decide anything, add a visible `Needs your decision:` line under the opener. Remove each item once it is settled.
 - **Screenshot.** Add one when the change is visible.
 - **Summary line.** Give the model. Add the effort only if you know it from the session or `~/.claude/settings.json`.
