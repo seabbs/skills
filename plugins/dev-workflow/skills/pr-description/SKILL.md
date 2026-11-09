@@ -42,17 +42,17 @@ This was opened by a bot. Please ping @seabbs for any questions.
 
 ## Inside the block
 
-- Start with a scan layer, one line per change, at most about six. A reader should be able to stop there.
+- Start with a scan layer, one line per change. A reader should be able to stop there.
 - Then give one nested `<details>` per topic, in the same order, for the deep detail. This covers design, edge cases, test detail, limits, follow-ups and other links.
 - Use two levels at most. A small PR skips the nested blocks.
 
 ## Opener
 
-- Write a short paragraph of two to four sentences in plain language, about 60 words at most. It is the text you promise is worth the reader's time.
+- Write a short paragraph in plain language. Make it as short as it can be while still getting the reader up to speed, which is often a few sentences. It is the text you promise is worth the reader's time.
 - Say what was wrong or missing, linking the issue (`This PR closes #12, where...`). Then say what this PR does about it.
 - If the PR needs something from the reader (a breaking change, a decision, a risky area), say so here.
 - Do not list files or describe testing. Those belong in the details.
-- If it will not fit, the PR probably does two things.
+- If it needs much more than a paragraph, the PR probably does two things.
 
 ## Rest
 

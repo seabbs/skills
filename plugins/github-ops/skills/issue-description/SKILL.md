@@ -39,7 +39,7 @@ Details drafted by Claude Opus 5.5.
 This was opened by a bot. Please ping @seabbs for any questions.
 ```
 
-- Write the opener as a short paragraph of about 60 words at most, in plain language. Say what goes wrong, what we think causes it and what we would do.
+- Write the opener as a short paragraph in plain language, as short as it can be while still getting the reader up to speed. Say what goes wrong, what we think causes it and what we would do.
 - Describe the problem as the symptom a person sees, not the code.
 - Say how sure you are of the cause. Write "we do not know why yet" rather than guess.
 - The fix can be "open, needs a decision on X".
