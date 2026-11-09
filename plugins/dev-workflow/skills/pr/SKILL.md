@@ -62,4 +62,6 @@ Create a pull request based on issue #$ARGUMENTS. Follow these steps systematica
 10. Create well-structured commits, push the branch, and create PR:
     - Title: "Fix #$ARGUMENTS: [Clear description]"
     - Prepend: `**This is entirely from an agent so do not review until I have pinged for review as I will do a first pass**`
-    - Include summary, changes, testing, and related issues
+    - Write the body with the `pr-description` skill: a short opener, then
+      the summary, changes, testing and related issues inside a
+      `<details>` block
