@@ -50,6 +50,7 @@ You never widen it yourself, and a comment looking correct and important is not 
 - Spawn a `weak-general-purpose` subagent (model: sonnet) to prepend to the PR body:
   **This is entirely from an agent so do not review until I have pinged for review as I will do a first pass**
 - Confirm the notice is in place before moving on.
+- If the body does not follow the `pr-description` layout, rewrite it so it does in the same edit.
 
 ### 1. First pass
 
@@ -141,7 +142,8 @@ Update it via `gh pr edit --body` whenever:
 - something described was dropped
 - review feedback changed the approach
 
-Keep the agent-authored notice at the top.
+Keep the agent-authored notice at the top and the `pr-description` layout.
+Rewrite the opener if what the PR does has changed, and put the detail inside `<details>`.
 Describe what the PR does now, not the history of how it got there.
 
 ## Rules
