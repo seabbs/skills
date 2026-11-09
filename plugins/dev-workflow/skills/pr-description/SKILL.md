@@ -17,12 +17,33 @@ Plots in the Julia REPL pane now render on Linux. Closes #12.
 <details>
 <summary>Claude Opus 5.5 (high effort)</summary>
 
-...summary, changes, testing, decisions, other related issues...
+- **Display.** MuxDisplay hands plots to a bundled imgcat shim.
+- **Tests.** A new script checks plots render in a headless pane.
+
+<details>
+<summary>Display: how and why</summary>
+
+...design, edge cases, alternatives...
+
+</details>
+
+<details>
+<summary>Testing</summary>
+
+...what ran and what it covers...
+
+</details>
 
 </details>
 
 This was opened by a bot. Please ping @seabbs for any questions.
 ```
+
+## Inside the block
+
+- Start with a scan layer, one line per change, at most about six. A reader should be able to stop there.
+- Then give one nested `<details>` per topic, in the same order, for the deep detail. This covers design, edge cases, test detail, limits, follow-ups and other links.
+- Use two levels at most. A small PR skips the nested blocks.
 
 ## Opener
 

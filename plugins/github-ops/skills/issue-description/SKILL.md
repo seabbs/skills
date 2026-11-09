@@ -44,7 +44,7 @@ This was opened by a bot. Please ping @seabbs for any questions.
 - **Suspected cause** says how sure you are. Write "Not known yet" rather than guess.
 - **Proposed fix** can be "Open, needs a decision on X".
 - For feature requests use **Need**, **Gap** and **Proposal** instead.
-- Give one `<details>` block per line, and drop a block that would be empty.
+- Give one `<details>` block per line, and drop a block that would be empty. Open each block with a few lines, and nest a further `<details>` only for long logs or traces.
 - `Related` links the issues or PRs a reader needs, such as the PR follow-up work came from.
 - When the cause is confirmed, rename the line to **Cause**.
 - Short questions (e.g. the `repo-watch` issue) stay plain text.
