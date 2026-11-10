@@ -63,5 +63,5 @@ This was opened by a bot. Please ping @seabbs for any questions.
 - **Agent notice and bot footer.** Both stay outside `<details>`. Drop the notice once seabbs has rewritten the opener.
 - **Markup.** `<details>` wraps `<summary>`. Leave a blank line after `</summary>` and before `</details>`, or GitHub shows raw Markdown.
 - **Body.** Pass it with `--body-file` from the scratchpad.
-- **Updates.** Keep the layout. Refresh the opener if scope changes, and edit the detail inside the block.
+- **Updates.** Update the description whenever a push changes what the PR does. Rewrite it from `git diff origin/main...HEAD` so it describes the PR as it now stands against main. Do not narrate how it got there ("initially", "then", "now also", "in response to review"). That history lives in the commits and review threads. Keep the layout.
 - **Hook.** A PreToolUse hook blocks `gh pr create`/`gh pr edit` bodies with no `<details>`. Fix the body and retry.
