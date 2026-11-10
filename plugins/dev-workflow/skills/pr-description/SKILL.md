@@ -45,12 +45,15 @@ This was opened by a bot. Please ping @seabbs for any questions.
 - Start with a scan layer, one line per change. A reader should be able to stop there.
 - Then give one nested `<details>` per topic, in the same order, for the deep detail. This covers design, edge cases, test detail, limits, follow-ups and other links.
 - Use two levels at most. A small PR skips the nested blocks.
+- Everything about the PR lives here. Never move detail, evidence or results into PR comments to keep the description short. That is what the dropdowns are for. Long evidence (tables, backtests, logs) gets its own nested block.
+- PR comments are for short conversation only: CI notes and re-review requests. Answer review findings in their threads. A hook blocks long PR comments.
 
 ## Opener
 
 - Write a short paragraph in plain language. Make it as short as it can be while still getting the reader up to speed, which is often a few sentences. It is the text you promise is worth the reader's time.
 - Say what was wrong or missing, linking the issue (`This PR closes #12, where...`). Then say what this PR does about it.
 - If the PR needs something from the reader (a breaking change, a decision, a risky area), say so here.
+- Results, tables and merge notes go in the block, not the opener.
 - Do not list files or describe testing. Those belong in the details.
 - If it needs much more than a paragraph, the PR probably does two things.
 
@@ -63,5 +66,5 @@ This was opened by a bot. Please ping @seabbs for any questions.
 - **Agent notice and bot footer.** Both stay outside `<details>`. Drop the notice once seabbs has rewritten the opener.
 - **Markup.** `<details>` wraps `<summary>`. Leave a blank line after `</summary>` and before `</details>`, or GitHub shows raw Markdown.
 - **Body.** Pass it with `--body-file` from the scratchpad.
-- **Updates.** Keep the layout. Refresh the opener if scope changes, and edit the detail inside the block.
+- **Updates.** Update the description whenever a push changes what the PR does. Rewrite it from `git diff origin/main...HEAD` so it describes the PR as it now stands against main. Do not narrate how it got there ("initially", "then", "now also", "in response to review"). That history lives in the commits and review threads. Keep the layout.
 - **Hook.** A PreToolUse hook blocks `gh pr create`/`gh pr edit` bodies with no `<details>`. Fix the body and retry.
