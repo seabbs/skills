@@ -10,7 +10,7 @@ Claude Code skills marketplace for research, development, and GitHub automation.
 | `lang-r` | 1 | R package development (devtools, testthat, roxygen2) |
 | `lang-julia` | 1 | Julia package development (SciML standards) |
 | `lang-stan` | 1 | Stan probabilistic programming (cmdstanr) |
-| `dev-workflow` | 14 | Commits, linting, testing, review, PRs, docs, coverage, deps, scaffolding, tasks |
+| `dev-workflow` | 15 | Commits, linting, testing, review, PRs, docs, coverage, deps, scaffolding, tasks, opening files in nvim |
 | `github-ops` | 7 | Dashboard, issue management, repo analysis, issue scanning |
 | `org-management` | 10 | CI health, deps, issues, maintenance, orchestration, releases, standards, monitoring |
 | `bot-automation` | 3 | Bot collaborator, task processing, daily summaries |
@@ -84,6 +84,7 @@ Or install individual plugins as needed.
 | `/docs` | Check and fix documentation gaps |
 | `/pr` | End-to-end PR workflow from a GitHub issue |
 | `/pr-description` | Short opener with the full agent text collapsed in `<details>` |
+| `/open-in-editor` | Open files in the running nvim, or a new tmux split |
 | `/improve-coverage` | Identify test coverage gaps and generate tests |
 | `/update-deps` | Review and update dependencies with incremental testing |
 | `/project-organization` | Project scaffolding and structure patterns |
